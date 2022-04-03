@@ -1,11 +1,12 @@
 import os
 import sys
 import time
+import itertools
 
 import argparse
 import termcolor
 
-from utils import isSubfileFolder, combinations
+from utils import isSubfileFolder
 
 
 parser = argparse.ArgumentParser(
@@ -50,24 +51,29 @@ with open(args.logFilename, 'w') as f:
     f.write("You can check all the return codes meaning and infos on https://kinsta.com/blog/http-status-codes/\n\n")
 
 
-nameLength = 1
+nameLength = 3
 fileListed = 0
 
-combinationList = list("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.")
+#combinationList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789."
+combinationList = "homebootr"
+
+listedFilefolder = []
 
 try:
-    while True:
-        #for folderfileName in combinations(combinationList, nameLength):
-        for folderfileName in ['ecole', 'test', 'info', 'prout']:
+    while nameLength <= len(combinationList):
+        for folderfileName in itertools.product(combinationList, repeat=nameLength):
+            folderfileName = "".join(folderfileName)
             exists, statusCode, infoText = isSubfileFolder(args.url, name=folderfileName)
 
-            if exists:
+            if exists and not folderfileName in listedFilefolder:
                 with open(args.logFilename, 'a') as f:
-                    f.write(f"URL : {args.url}/{statusCode}\nExists : {exists}\nStatus code : {statusCode}\nInfos : {infoText}\n\n-\n\n")
+                    f.write(f"URL : {args.url}/{folderfileName}\nExists : {exists}\nStatus code : {statusCode}\nInfos : {infoText}\n\n-\n\n")
 
                 print(f"-> {args.url}/{folderfileName}")
+
+                listedFilefolder.append(folderfileName)
                 fileListed += 1
-        
+
         nameLength += 1
 except KeyboardInterrupt:
     text = termcolor.colored(f"\n\n[+] {fileListed} files/folder listed\n", 'green')

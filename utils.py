@@ -3,34 +3,6 @@ import termcolor
 from bs4 import BeautifulSoup
 
 
-def combinations(iterable, r):
-    # combinations('ABCD', 2) --> AB AC AD BC BD CD
-    # combinations(range(4), 3) --> 012 013 023 123
-
-    pool = tuple(iterable)
-    n = len(pool)
-    
-    if r > n:
-        return
-    
-    indices = list(range(r))
-    yield tuple(pool[i] for i in indices)
-    
-    while True:
-        for i in reversed(range(r)):
-            if indices[i] != i + n - r:
-                break
-        else:
-            return
-        
-        indices[i] += 1
-        
-        for j in range(i+1, r):
-            indices[j] = indices[j-1] + 1
-        
-        yield tuple(pool[i] for i in indices)
-
-
 def isSubfileFolder(websiteUrl : str, name : str) -> bool():
     """Fuction that returns if a website subfolder/subfile exists
 
@@ -46,9 +18,9 @@ def isSubfileFolder(websiteUrl : str, name : str) -> bool():
     try:
         response = requests.get(f"{websiteUrl}/{name}")
     except requests.exceptions.ConnectionError:
-        errorCode = termcolor.colored("[!] INVALID URL", 'red')
+        errorCode = termcolor.colored("\n[!] INVALID URL", 'red')
         print(errorCode)
-        return False
+        return False, 404, "URL is invalid"
 
 
     # You can check all the return codes meaning and infos on https://kinsta.com/blog/http-status-codes/
