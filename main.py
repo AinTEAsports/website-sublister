@@ -47,7 +47,7 @@ if args.forceWrite and os.path.exists(args.logFilename):
 
 # Creating / Overwrite a file and put nothing in it
 with open(args.logFilename, 'w') as f:
-    f.write("")
+    f.write("You can check all the return codes meaning and infos on https://kinsta.com/blog/http-status-codes/\n\n")
 
 
 nameLength = 1

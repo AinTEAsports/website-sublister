@@ -51,7 +51,7 @@ def isSubfileFolder(websiteUrl : str, name : str) -> bool():
         return False
 
 
-    # You can check all the return codes meaning in https://kinsta.com/blog/http-status-codes/
+    # You can check all the return codes meaning and infos on https://kinsta.com/blog/http-status-codes/
     returnCodes = {
         '200' : {'returnvalue' : True, 'text' : "Resource found successfully"},
         '204' : {'returnvalue' : True, 'text' : "No content"},
