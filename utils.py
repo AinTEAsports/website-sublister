@@ -3,7 +3,7 @@ import termcolor
 from bs4 import BeautifulSoup
 
 
-def isSubfileFolder(websiteUrl : str, name : str) -> bool():
+def isSubfileFolder(websiteUrl : str, name : str) -> tuple():
     """Fuction that returns if a website subfolder/subfile exists
 
     Args:
@@ -18,7 +18,7 @@ def isSubfileFolder(websiteUrl : str, name : str) -> bool():
     try:
         response = requests.get(f"{websiteUrl}/{name}")
     except requests.exceptions.ConnectionError:
-        errorCode = termcolor.colored("\n[!] INVALID URL", 'red')
+        errorCode = termcolor.colored("\n[!] '{websiteUrl}/{name}' is not a valid URL", 'red')
         print(errorCode)
         return False, 404, "URL is invalid"
 
@@ -57,8 +57,6 @@ def isSubfileFolder(websiteUrl : str, name : str) -> bool():
         '422' : {'returnvalue' : False, 'text' : "Unprocessable entity"},
         '451' : {'returnvalue' : False, 'text' : "Unavailible for legal reasons"},
     }
-
-    # logs in file
 
     statCode = str(response.status_code)
 

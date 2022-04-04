@@ -54,8 +54,7 @@ with open(args.logFilename, 'w') as f:
 nameLength = 3
 fileListed = 0
 
-#combinationList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789."
-combinationList = "homebootr"
+combinationList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789."
 
 listedFilefolder = []
 
