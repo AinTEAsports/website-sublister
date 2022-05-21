@@ -1,6 +1,5 @@
 import requests
 import termcolor
-from bs4 import BeautifulSoup
 
 
 def isSubfileFolder(websiteUrl : str, name : str) -> tuple():
