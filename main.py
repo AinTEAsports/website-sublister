@@ -1,15 +1,16 @@
 import os
 import sys
 import time
+import threading
 import itertools
 
 import argparse
 import termcolor
 
-from utils import isSubfileFolder
+from utils import subname_exists
 
 
-def generatePossibilities(combinations : str, length : int):
+def generate_possibilities(combinations : str, length : int):
     for combination in itertools.product(combinations, repeat=length):
         yield ''.join(combination)
 
@@ -64,8 +65,8 @@ elif not os.path.exists(args.wordlist) and not args.brute_force:
 
 
 if os.path.exists(args.output_file):
-    warningText = termcolor.colored(f"[/!\\] The file '{args.output_file}' already exists", 'yellow')
-    print(warningText)
+    warning_text = termcolor.colored(f"[/!\\] The file '{args.output_file}' already exists", 'yellow')
+    print(warning_text)
     sys.exit()
 
 # Creating / Overwrite a file and put nothing in it
@@ -73,10 +74,10 @@ with open(args.output_file, 'w') as f:
     f.write("You can check all the status code meanings and infos on https://kinsta.com/blog/http-status-codes/\n\n")
 
 
-combinationLength = 1
-listedFilesNumber = 0
+combination_length = 1
+listed_files_number = 0
 
-combinationList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789."
+combination_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789."
 
 
 # I transform the URL so there is no '/' at the end
@@ -86,35 +87,35 @@ if args.url.endswith('/'):
 
 try:
     if args.brute_force:
-        while combinationLength <= len(combinationList):
-            for folderfileName in generatePossibilities(combinationList, combinationLength):
-                exists, statusCode, infoText = isSubfileFolder(args.url, name=folderfileName)
+        while combination_length <= len(combination_list):
+            for folder_file_name in generate_possibilities(combination_list, combination_length):
+                exists, status_code, info_text = subname_exists(args.url, name=folder_file_name)
 
-                if exists and not folderfileName in open(args.output_file, 'r').read():
+                if exists and not folder_file_name in open(args.output_file, 'r').read():
                     with open(args.output_file, 'a') as f:
-                        f.write(f"URL : {args.url}/{folderfileName}\nExists : {exists}\nStatus code : {statusCode}\nInfos : {infoText}\n\n-\n\n")
+                        f.write(f"URL : {args.url}/{folder_file_name}\nExists : {exists}\nStatus code : {status_code}\nInfos : {info_text}\n\n-\n\n")
 
-                    print(f"-> {args.url}/{folderfileName}")
+                    print(f"-> {args.url}/{folder_file_name}")
 
-                    listedFilesNumber += 1
+                    listed_files_number += 1
 
-            combinationLength += 1
+            combination_length += 1
     else:
         with open(args.wordlist, 'r') as f:
-            wordList = f.read().split('\n')
+            wordlist = f.read().split('\n')
         
-        for combination in wordList:
-            exists, statusCode, infoText = isSubfileFolder(args.url, name=combination)
+        for combination in wordlist:
+            exists, status_code, info_text = subname_exists(args.url, name=combination)
             
             if exists:
                 with open(args.output_file, 'a') as f:
-                    f.write(f"URL : {args.url}/{combination}\nExists : {exists}\nStatus code : {statusCode}\nInfos : {infoText}\n\n-\n\n")
+                    f.write(f"URL : {args.url}/{combination}\nExists : {exists}\nStatus code : {status_code}\nInfos : {info_text}\n\n-\n\n")
                     
                 print(f"-> {args.url}/{combination}")
                 
-                listedFilesNumber += 1
+                listed_files_number += 1
 except KeyboardInterrupt:
-    text = termcolor.colored(f"\n\n[+] {listedFilesNumber} files/folder listed\n", 'green')
+    text = termcolor.colored(f"\n\n[+] {listed_files_number} files/folder listed\n", 'green')
     print(text)
     time.sleep(0.5)
     sys.exit()

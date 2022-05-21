@@ -2,7 +2,7 @@ import requests
 import termcolor
 
 
-def isSubfileFolder(websiteUrl : str, name : str) -> tuple():
+def subname_exists(websiteUrl : str, name : str) -> tuple():
     """Fuction that returns if a website subfolder/subfile exists
 
     Args:
@@ -17,13 +17,13 @@ def isSubfileFolder(websiteUrl : str, name : str) -> tuple():
     try:
         response = requests.get(f"{websiteUrl}/{name}")
     except requests.exceptions.ConnectionError:
-        errorCode = termcolor.colored("\n[!] '{websiteUrl}/{name}' is not a valid URL", 'red')
-        print(errorCode)
+        error_code = termcolor.colored("\n[!] '{websiteUrl}/{name}' is not a valid URL", 'red')
+        print(error_code)
         return False, 404, "URL is invalid"
 
 
     # You can check all the return codes meaning and infos on https://kinsta.com/blog/http-status-codes/
-    returnCodes = {
+    return_codes = {
         '200' : {'returnvalue' : True, 'text' : "Resource found successfully"},
         '204' : {'returnvalue' : True, 'text' : "No content"},
         '205' : {'returnvalue' : True, 'text' : "Reset content"},
@@ -57,9 +57,9 @@ def isSubfileFolder(websiteUrl : str, name : str) -> tuple():
         '451' : {'returnvalue' : False, 'text' : "Unavailible for legal reasons"},
     }
 
-    statCode = str(response.status_code)
+    status_code = str(response.status_code)
 
-    if not statCode in returnCodes.keys():
-        return response.ok, int(statCode), 'No information registered for this status code'
+    if not status_code in return_codes.keys():
+        return response.ok, int(status_code), 'No information registered for this status code'
 
-    return returnCodes[statCode]['returnvalue'], int(statCode), returnCodes[statCode]['text']
+    return return_codes[status_code]['returnvalue'], int(status_code), return_codes[status_code]['text']
