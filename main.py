@@ -80,16 +80,6 @@ except requests.exceptions.ConnectionError:
     print(error_text)
     sys.exit(1)
 except requests.exceptions.MissingSchema:
-    http = f"{Color.BOLD}{Color.GREEN}http://{Color.END}"
-    https = f"{Color.BOLD}{Color.GREEN}https://{Color.END}"
-    
-    # error_text = termcolor.colored("[!] URL format is invalid, did you meant '{http}{url_1}' or '{https}{url_2}' ?\n", "red").format(
-    #     http=http,
-    #     url_1=args.url,
-    #     https=https,
-    #     url_2=args.url
-    # )
-    
     error_text = f"{Color.RED}[!] URL format is invalid, did you meant \
 '{Color.END}{Color.GREEN}{Color.BOLD}http://{Color.END}{Color.RED}{args.url}' or \
 '{Color.GREEN}{Color.BOLD}https://{Color.END}{Color.RED}{args.url}' ?{Color.END}\n"
