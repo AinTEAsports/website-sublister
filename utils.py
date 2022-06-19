@@ -15,7 +15,7 @@ def subname_exists(url : str, name : str) -> Tuple[bool, int, str] :
     try:
         response = requests.get(f"{url}/{name}")
     except requests.exceptions.ConnectionError:
-        return False, 404, "URL is invalid"
+        return False, 404, "URL is invalid or not found"
 
 
     # You can check all the return codes meaning and infos on https://kinsta.com/blog/http-status-codes/
