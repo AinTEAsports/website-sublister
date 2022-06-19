@@ -1,13 +1,13 @@
 import os
 import sys
 import time
-import threading
+import argparse
+import requests
 import itertools
 
-import argparse
 import termcolor
 
-from utils import subname_exists
+from utils import subname_exists, Color
 
 
 def generate_possibilities(combinations : str, length : int):
@@ -56,6 +56,14 @@ args = parser.parse_args()
 if not args.url:
     error_text = termcolor.colored("[!] You must specify an URL\n", "red")
     parser.print_help()
+    sys.exit(1)
+
+
+try:
+    requests.get(args.url)
+except requests.exceptions.InvalidURL or requests.exceptions.ConnectionError:
+    error_text = termcolor.colored("[!] URL is invalid or inaccessible\n", "red")
+    print(error_text)
     sys.exit(1)
 
 
@@ -108,22 +116,22 @@ try:
     else:
         with open(args.wordlist, 'r') as f:
             wordlist = f.read().split('\n')
-        
+
         for combination in wordlist:
             exists, status_code, info_text = subname_exists(args.url, name=combination)
-            
+
             if exists:
                 with open(args.output_file, 'a') as f:
                     f.write(f"URL : {args.url}/{combination}\nExists : {exists}\nStatus code : {status_code}\nInfos : {info_text}\n\n-\n\n")
-                    
-                    
+
+
                 if str(status_code).startswith('2'):
-                    colored_stat_code = termcolor.colored(f"\033[1m{status_code}\033[0m", "green")
+                    colored_stat_code = f"{Color.BOLD}{Color.GREEN}{status_code}{Color.END}"
                 else:
-                    colored_stat_code = termcolor.colored(f"\033[1m{status_code}\033[0m", "red")
-                
-                print(f"-> {args.url}/{combination}    [{colored_stat_code}]")
-                
+                    colored_stat_code = f"{Color.BOLD}{Color.RED}{status_code}{Color.END}"
+
+                print(f"-> {args.url}/{combination} \t [{colored_stat_code}]")
+
                 listed_files_number += 1
 except KeyboardInterrupt:
     text = termcolor.colored(f"\n\n[+] {listed_files_number} files/folder listed\n", 'green')
