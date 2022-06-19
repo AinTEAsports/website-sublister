@@ -63,3 +63,14 @@ def subname_exists(websiteUrl : str, name : str) -> tuple():
         return response.ok, int(status_code), 'No information registered for this status code'
 
     return return_codes[status_code]['returnvalue'], int(status_code), return_codes[status_code]['text']
+
+
+class Color:
+    GREEN = "\033[92m"
+    RED = "\033[91m"
+    BOLD = "\033[1m"
+
+
+
+if __name__ == "__main__":
+    print("Chuck Norris uses light theme IDE because is the only exception to 'the light attracts the bugs', the bugs aren't suicidal")
