@@ -53,6 +53,11 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+if not args.url:
+    error_text = termcolor.colored("[!] You must specify an URL\n", "red")
+    parser.print_help()
+    sys.exit(1)
+
 
 if not args.wordlist and not args.brute_force:
     errorText = termcolor.colored(f"[!] You need either to precise a wordlist or if you want to use the brute force\n", 'red')
@@ -111,7 +116,13 @@ try:
                 with open(args.output_file, 'a') as f:
                     f.write(f"URL : {args.url}/{combination}\nExists : {exists}\nStatus code : {status_code}\nInfos : {info_text}\n\n-\n\n")
                     
-                print(f"-> {args.url}/{combination}")
+                    
+                if str(status_code).startswith('2'):
+                    colored_stat_code = termcolor.colored(f"\033[1m{status_code}\033[0m", "green")
+                else:
+                    colored_stat_code = termcolor.colored(f"\033[1m{status_code}\033[0m", "red")
+                
+                print(f"-> {args.url}/{combination}    [{colored_stat_code}]")
                 
                 listed_files_number += 1
 except KeyboardInterrupt:
