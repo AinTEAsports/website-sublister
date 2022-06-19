@@ -17,8 +17,6 @@ def subname_exists(websiteUrl : str, name : str) -> tuple():
     try:
         response = requests.get(f"{websiteUrl}/{name}")
     except requests.exceptions.ConnectionError:
-        error_code = termcolor.colored("\n[!] '{websiteUrl}/{name}' is not a valid URL", 'red')
-        print(error_code)
         return False, 404, "URL is invalid"
 
 
