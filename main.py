@@ -11,7 +11,7 @@ import termcolor
 
 from utils import subname_exists, Color
 
-
+VERSION = "0.1"
 ASCII_ART = f"""{Color.BOLD}
  _______               ______               __              
 |_     _|.-----.---.-.|   __ \.--.--.-----.|  |_.-----.----.
@@ -122,9 +122,19 @@ if args.url.endswith('/'):
 
 
 print(f"""
-{ASCII_ART}
+{Color.BOLD}{Color.RED}{ASCII_ART}{Color.END}
 
+TeaBuster v{VERSION}
+by AinTea (AinTea#0519) https://github.com/AinTEAsports/website-sublister
 
+=======================[ {Color.BOLD}{Color.RED}TeaBuster{Color.END} ]=======================
+
+[~] Target   : {args.url}
+[~] Method   : GET
+[~] Wordlist : {args.wordlist if args.wordlist else "brute force mode selected"}
+[~] Version  : TeaBuster v{VERSION}
+
+===========================================================
 """)
 
 
