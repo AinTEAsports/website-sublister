@@ -136,7 +136,11 @@ try:
 
                 listed_files_number += 1
 except KeyboardInterrupt:
-    text = termcolor.colored(f"\n\n[+] {listed_files_number} files/folder listed\n", 'green')
-    print(text)
+    if listed_files_number:
+        colored_number = f"{Color.BOLD}{Color.GREEN}{listed_files_number}{Color.END}"
+    else:
+        colored_number = f"{Color.BOLD}{Color.RED}{listed_files_number}{Color.END}"
+
+    print(f"\n\n[{Color.BOLD}{Color.GREEN}+{Color.END}] {colored_number} files/folder listed\n")
     time.sleep(0.5)
     sys.exit()
