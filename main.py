@@ -17,40 +17,39 @@ def generate_possibilities(combinations : str, length : int):
         yield ''.join(combination)
 
 
-
 parser = argparse.ArgumentParser(
     description="Python script by AinTea#0519 that search subfolders and files by an URL given"
 )
 
 parser.add_argument(
-    '-u',
-    '--url',
+    "-u",
+    "--url",
     type=str,
-    help='Website\'s URL'
+    help="Website\'s URL"
 )
 
 parser.add_argument(
-    '-w',
-    '--wordlist',
+    "-w",
+    "--wordlist",
     type=str,
     nargs='?',
     default='',
-    help='File that will content all combinations'
+    help="File that will content all combinations"
 )
 
 parser.add_argument(
-    '-o',
-    '--output-file',
+    "-o",
+    "--output-file",
     type=str,
     nargs='?',
-    default='./log.txt',
-    help='File where the script logs will be written'
+    default="./log.txt",
+    help="File where the script logs will be written"
 )
 
 parser.add_argument(
-    '--brute-force',
-    action='store_true',
-    help='Argument that tells (or not) to the script he can overwrite on an existing logfile (given by the user)'
+    "--brute-force",
+    action="store_true",
+    help="Argument that tells (or not) to the script he can overwrite on an existing logfile (given by the user)"
 )
 
 args = parser.parse_args()
@@ -69,13 +68,13 @@ except requests.exceptions.InvalidURL or requests.exceptions.ConnectionError:
     sys.exit(1)
 
 
-if not args.wordlist and not args.brute_force:
-    errorText = termcolor.colored(f"[!] You need either to precise a wordlist or if you want to use the brute force\n", 'red')
-    print(errorText)
+if (not args.wordlist and not args.brute_force) or (args.wordlist and args.brute_force):
+    error_text = termcolor.colored(f"[!] You need either to precise a wordlist or if you want to use the brute force\n", 'red')
+    print(error_text)
     sys.exit()
 elif not os.path.exists(args.wordlist) and not args.brute_force:
-    errorText = termcolor.colored(f"[!] The wordlist file '{args.wordlist}' doesn't exists\n", 'red')
-    print(errorText)
+    error_text = termcolor.colored(f"[!] The wordlist file '{args.wordlist}' doesn't exists\n", 'red')
+    print(error_text)
     sys.exit()
 
 

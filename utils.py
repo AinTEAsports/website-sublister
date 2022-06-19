@@ -1,21 +1,19 @@
 import requests
-import termcolor
+from typing import Tuple
 
-
-def subname_exists(websiteUrl : str, name : str) -> tuple():
+def subname_exists(url : str, name : str) -> Tuple[bool, int, str] :
     """Fuction that returns if a website subfolder/subfile exists
 
     Args:
-        websiteUrl (str) : the website's URL
+        url (str) : the website's URL
         name (str) : the name of the file/folder you want to verify that exists
-        type (str) : the type of what you want to verify ('file' or 'folder')
     
     Returns:
-        (bool), (int), (str) : returns if the file/folder exists in the website, the status code and some text information
+        Tuple[bool, int, str] : existence of the folder/file, return code, and some text information
     """
     
     try:
-        response = requests.get(f"{websiteUrl}/{name}")
+        response = requests.get(f"{url}/{name}")
     except requests.exceptions.ConnectionError:
         return False, 404, "URL is invalid"
 
