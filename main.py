@@ -12,6 +12,15 @@ import termcolor
 from utils import subname_exists, Color
 
 
+ASCII_ART = f"""{Color.BOLD}
+ _______               ______               __              
+|_     _|.-----.---.-.|   __ \.--.--.-----.|  |_.-----.----.
+  |   |  |  -__|  _  ||   __ <|  |  |__ --||   _|  -__|   _|
+  |___|  |_____|___._||______/|_____|_____||____|_____|__|  
+{Color.END}"""
+
+
+
 def generate_possibilities(combinations : str, length : int):
     for combination in itertools.product(combinations, repeat=length):
         yield ''.join(combination)
@@ -62,10 +71,32 @@ if not args.url:
 
 try:
     requests.get(args.url)
-except requests.exceptions.InvalidURL or requests.exceptions.ConnectionError:
-    error_text = termcolor.colored("[!] URL is invalid or inaccessible\n", "red")
+except requests.exceptions.InvalidURL:
+    error_text = termcolor.colored("[!] URL is invalid\n", "red")
     print(error_text)
     sys.exit(1)
+except requests.exceptions.ConnectionError:
+    error_text = termcolor.colored("[!] URL is inaccessible\n", "red")
+    print(error_text)
+    sys.exit(1)
+except requests.exceptions.MissingSchema:
+    http = f"{Color.BOLD}{Color.GREEN}http://{Color.END}"
+    https = f"{Color.BOLD}{Color.GREEN}https://{Color.END}"
+    
+    # error_text = termcolor.colored("[!] URL format is invalid, did you meant '{http}{url_1}' or '{https}{url_2}' ?\n", "red").format(
+    #     http=http,
+    #     url_1=args.url,
+    #     https=https,
+    #     url_2=args.url
+    # )
+    
+    error_text = f"{Color.RED}[!] URL format is invalid, did you meant \
+'{Color.END}{Color.GREEN}{Color.BOLD}http://{Color.END}{Color.RED}{args.url}' or \
+'{Color.GREEN}{Color.BOLD}https://{Color.END}{Color.RED}{args.url}' ?{Color.END}\n"
+    
+    print(error_text)
+    sys.exit(1)
+
 
 
 if (not args.wordlist and not args.brute_force) or (args.wordlist and args.brute_force):
@@ -97,6 +128,15 @@ combination_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567
 # I transform the URL so there is no '/' at the end
 if args.url.endswith('/'):
     args.url = args.url[:-1]
+
+
+
+print(f"""
+{ASCII_ART}
+
+
+""")
+
 
 
 try:
