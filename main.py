@@ -92,7 +92,7 @@ with open(args.output_file, 'w') as f:
 combination_length = 1
 listed_files_number = 0
 
-combination_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789."
+combination_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789. "
 
 
 # I transform the URL so there is no '/' at the end
