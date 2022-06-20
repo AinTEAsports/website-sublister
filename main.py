@@ -125,14 +125,15 @@ print(f"""
 {Color.BOLD}{Color.RED}{ASCII_ART}{Color.END}
 
 TeaBuster v{VERSION}
-by AinTea (AinTea#0519) https://github.com/AinTEAsports/website-sublister
+by AinTea (AinTea#0519)
+Link : https://github.com/AinTEAsports/website-sublister
 
 =======================[ {Color.BOLD}{Color.RED}TeaBuster{Color.END} ]=======================
 
-[~] Target   : {args.url}
-[~] Method   : GET
-[~] Wordlist : {args.wordlist if args.wordlist else "brute force mode selected"}
-[~] Version  : TeaBuster v{VERSION}
+[{Color.BOLD}~{Color.END}] Target   : {args.url}
+[{Color.BOLD}~{Color.END}] Method   : GET
+[{Color.BOLD}~{Color.END}] Wordlist : {args.wordlist if args.wordlist else "brute force mode selected"}
+[{Color.BOLD}~{Color.END}] Version  : TeaBuster v{VERSION}
 
 ===========================================================
 """)
