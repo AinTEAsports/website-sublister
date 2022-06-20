@@ -171,7 +171,7 @@ try:
                 else:
                     colored_stat_code = f"{Color.BOLD}{Color.RED}{status_code}{Color.END}"
 
-                print(f"-> {args.url}/{combination} \t [{colored_stat_code}]")
+                print(f"-> {args.url}/{combination} \t\t [{colored_stat_code}]")
 
                 listed_files_number += 1
 except KeyboardInterrupt:
