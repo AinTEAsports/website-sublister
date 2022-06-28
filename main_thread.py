@@ -49,6 +49,15 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "-o",
+    "--output-file",
+    type=str,
+    nargs='?',
+    default="./log.txt",
+    help="File where the script logs will be written"
+)
+
+parser.add_argument(
     "--brute-force",
     action="store_true",
     help="Argument that tells (or not) to the script he can overwrite on an existing logfile (given by the user)"
@@ -92,17 +101,46 @@ elif not os.path.exists(args.wordlist) and not args.brute_force:
     sys.exit()
 
 
+if os.path.exists(args.output_file):
+    warning_text = termcolor.colored(f"[/!\\] The file '{args.output_file}' already exists", 'yellow')
+    print(warning_text)
+    sys.exit()
+
+# Creating / Overwrite a file and put nothing in it
+with open(args.output_file, 'w') as f:
+    f.write("You can check all the status code meanings and infos on https://kinsta.com/blog/http-status-codes/\n\n")
+
+
+
 
 combination_length = 1
-infos = {"listed_files_folder" : 0}
+infos = {
+    "listed_files_folder" : 0,
+    "not_logged" : [],
+}
 
 combination_list = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789. "
-
+program_finished = False
 
 # I transform the URL so there is no '/' at the end
 if args.url.endswith('/'):
     args.url = args.url[:-1]
 
+
+
+def log(filename : str) -> None :
+    try:
+        while True:
+            if not infos["not_logged"]:
+                continue
+
+            with open(filename, 'a') as f:
+                f.write(infos["not_logged"][0])
+
+            infos["not_logged"].pop(0)
+
+    except KeyboardInterrupt:
+        return
 
 
 print(f"""
@@ -133,9 +171,11 @@ def check_url(url : str, subname : str) -> None :
 
     if exists:
         print("-> {:<50} [{:<}]".format(f"{url}/{subname}", colored_stat_code))
+        infos["not_logged"].append(f"URL : {url}/{subname}\nExists : {exists}\nStatus code : {status_code}\nInfos : {info_text}\n\n-\n\n")
         infos["listed_files_folder"] += 1
 
 
+threading.Thread(target=log, args=(args.output_file,)).start()
 
 try:
     if args.brute_force:
@@ -159,3 +199,4 @@ except KeyboardInterrupt:
     print(f"\n\n[{Color.BOLD}{Color.GREEN}+{Color.END}] {colored_number} files/folder listed\n")
     time.sleep(0.5)
     sys.exit()
+
