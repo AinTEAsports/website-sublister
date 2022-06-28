@@ -16,7 +16,7 @@ from utils import subname_exists, Color
 VERSION = "0.1"
 ASCII_ART = f"""{Color.BOLD}
  _______               ______               __              
-|_     _|.-----.---.-.|   __ \.--.--.-----.|  |_.-----.----.
+|_     _|.-----.---.-.|   __ \\.--.--.-----.|  |_.-----.----.
   |   |  |  -__|  _  ||   __ <|  |  |__ --||   _|  -__|   _|
   |___|  |_____|___._||______/|_____|_____||____|_____|__|  
 {Color.END}"""
@@ -158,6 +158,7 @@ Link : https://github.com/AinTEAsports/website-sublister
 [{Color.BOLD}~{Color.END}] Version  : TeaBuster v{VERSION}
 
 ===========================================================
+
 """)
 
 
